@@ -12,10 +12,9 @@ let clearScoreEl = document.querySelector("#clear-score");
 
 // Timer
 let timeEl = document.querySelector(".timer");
-let minute = 0;
-let second = 0;
+let second = 100;
 let cron;
-function start() {
+function startTimer() {
     pause();
     cron = setInterval(() => { timer(); }, 1000);
 }
@@ -25,37 +24,41 @@ function pause() {
 }
 
 function reset() {
-    minute = 0;
-    second = 0;
-    document.getElementById('minute').innerText = '00';
-    document.getElementById('second').innerText = '00';
+    second = 100;
+    document.getElementById('second').innerText = '100';
 }
 
-function timer() {
-    if ((second += 1) == 60) {
-        second = 0;
-        minute++;
-    }
-    if (minute == 60) {
-        window.alert("You ran out of time!")
-    }
 
-    document.getElementById('minute').innerText = returnData(minute);
+function timer() {
+    if ((second -= 1) == 0 || second < 0) {
+        second = 100;
+        window.alert("You ran out of time! Try again")
+        pause();
+        resetState();
+        styleReset();
+        startPage();
+    }
+    document.getElementById('second').innerText = returnData(second);
+}
+
+function penalty() {
+    second= second - 10;
     document.getElementById('second').innerText = returnData(second);
 }
 
 function returnData(input) {
     return input > 10 ? input : `0${input}`
 }
+
 // End of timer
 
-// declaring all the different pages and questions as objects
+// declaring all the different pages and questions as objects inside arrays
 
-pages = [
+const pages = [
     intro = {
         question: "Coding Quiz Challenge",
         text: "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds",
-        possibleAnswers: ["Begin test!"]
+        answer: "Begin test!"
     },
 
     end = {
@@ -74,81 +77,174 @@ pages = [
     }
 ]
 
-questions = [
+const questions = [
 
-    quesOne = {
+    {
         question: "Commonly used data type DO Not Include;",
-        possibleAnswers: ["alerts", "string", "booleans", "numbers"]
+        answers: [
+            { text: "alerts", correct: false },
+            { text: "string", correct: false },
+            { text: "booleans", correct: true },
+            { text: "numbers", correct: false },
+        ]
     },
 
-    quesTwo = {
+    {
         question: "The considiton in an if / else statement is enclosed with ________.",
-        possibleAnswers: ["parenthesis", "quotes", "curly brackets", "square brackets"]
+        answers: [
+            { text: "parenthesis", correct: true },
+            { text: "quotes", correct: false },
+            { text: "curly brackets", correct: false },
+            { text: "square brackets", correct: false },
+        ]
     },
 
-    quesThree = {
+    {
         question: "Arrays in JavaScript can be used to store ________.",
-        possibleAnswers: ["other arrays", "numbers and strings", "booleans", "all of the above"]
+        answers: [
+            { text: "other arrays", correct: false },
+            { text: "numbers and strings", correct: false },
+            { text: "booleans", correct: false },
+            { text: "all of the above", correct: true },
+        ]
     },
 
-    quesFour = {
+    {
         question: "String values must be enclosed within ________ when being assigned to variables.",
-        possibleAnswers: ["parenthesis", "commas", "curly brackets", "quotes"]
+        answers: [
+            { text: "parenthesis", correct: false },
+            { text: "commas", correct: false },
+            { text: "curly brackets", correct: false },
+            { text: "quotes", correct: true },
+        ]
     },
 
-    quesFive = {
+    {
         question: "A very useful tool used during development and debugging for printing content to the debugger is:",
-        possibleAnswers: ["console.log", "terminal/bash", "JavaScript", "for loops"]
+        answers: [
+            { text: "console.log", correct: true },
+            { text: "terminal/bash", correct: false },
+            { text: "JavaScript", correct: false },
+            { text: "for loops", correct: false },
+        ]
     },
 ]
 
+// start page with trigger for counter
+function startPage() {
 
-function wrap() {
+    // declaration of the innerHTMl and creation of button
+    questionEl.innerHTML = pages[0].question;
 
-    start();
+    textEl.innerHTML = pages[0].text
+    textEl.style.display = "block"
 
-    let count = 0;
-    i = 0;
-    console.log(count);
+    var startBtn = document.createElement("button");
+    startBtn.className = "main-btn btn";
+    startBtn.id = "startBtn"
+    startBtn.innerHTML = pages[0].answer;
+    answerEl.appendChild(startBtn);
+
+    // styling for startPage
+    contentEl.style.textAlign = "center"
+    startBtn.style.textAlign = "center"
+    startBtn.style.width = "auto"
+    startBtn.style.margin = "auto"
+
+    //call for timer and questions to start
+    startBtn.addEventListener("click", styleReset);
+    startBtn.addEventListener("click", startTimer);
+    startBtn.addEventListener("click", nextQuestion);
+}
+
+// calls for reset state and calls question
+function nextQuestion() {
+    resetState();
+    counter();
+}
+
+// resets page styling and deletes buttons
+function resetState() {
+    while (answerEl.firstChild) {
+        answerEl.removeChild
+        (answerEl.firstChild)
+    }
+}
+
+function styleReset() {
+try {
+    contentEl.style.textAlign = ""
+    startBtn.style.textAlign = ""
+    startBtn.style.width = ""
+    startBtn.style.margin = ""
+    textEl.style.display = "none"
+} catch(err) {
+    contentEl.style.textAlign = ""
+    button = display = "none"
+    feedbackEl.style.display = "none"
+}
+
+}
+
+var count = 0;
+// loop for the questions and call for the endPage
+function counter() {
     QuestionsBuild(count);
 
     function QuestionsBuild(value) {
         questionEl.innerHTML = questions[value].question;
-        for (i = 0; i < 4; i++) {
-            var buttonMain = document.createElement("button");
-            buttonMain.className = "main-btn btn";
-            buttonMain.id = i;
-            buttonMain.innerHTML = questions[value].possibleAnswers[i];
-            answerEl.appendChild(buttonMain);
-            var check = document.getElementById(i)
-            check.addEventListener("click", function (event) {
-                feedbackEl.style.display = "block";
-                if (event.target.innerText == ("booleans" || "parenthesis" || "all of the above" || "quotes" || "console.log")) {
-                    feedbackEl.innerHTML = "True";
-                    count++;
-                    i = 0;
-                    QuestionsBuild(count);
-                }
-                else {
-                    feedbackEl.innerHTML = "False";
-                }
-            });
+        
+        questions[value].answers.forEach(answer => {
+            const button = document.createElement("button")
+            button.innerText = answer.text
+            button.className ="main-btn btn"
+            if (answer.correct) {
+                    button.dataset.correct = answer.correct
+                    button.addEventListener("click", checkTrue)
+            } else {
+                button.addEventListener("click", checkFalse)
+            }
+            answerEl.appendChild(button)
+        })   
+    }
+
+    function checkTrue() {
+        feedbackEl.style.display = "block"
+        feedbackEl.innerHTML = "True"
+        if (count < 4) {
+            count++
+            nextQuestion();
+        } else {
+            resetState();
+            styleReset();
+            endPage();
         }
     }
+    
+    function checkFalse() {
+        feedbackEl.style.display = "block"
+        feedbackEl.innerHTML = "False"
+        penalty();
+    }
+
 }
 
-wrap();
+function endPage () {
+    pause();
+    questionEl.innerHTML = pages[1].question;
+}
 
+startPage(0);
 // let styling = {
-//     style: contentEl.style.textAlign = "center";
-//     style: answer1El.style.margin = "auto";
-//     style: answer1El.style.textAlign = "center";
-//     style: answer1El.style.width = "auto";
-//     style: answer2El.style.display = "none";
-//     style: answer3El.style.display = "none";
-//     style: answer4El.style.display = "none";
-// }
-
+    //     style: contentEl.style.textAlign = "center";
+    //     style: answer1El.style.margin = "auto";
+    //     style: answer1El.style.textAlign = "center";
+    //     style: answer1El.style.width = "auto";
+    //     style: answer2El.style.display = "none";
+    //     style: answer3El.style.display = "none";
+    //     style: answer4El.style.display = "none";
+    // }
+    
 // var startPage = function () {
 //     //style changes
 //     answer2El.style.display = "none"
