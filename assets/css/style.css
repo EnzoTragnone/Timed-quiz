@@ -37,6 +37,9 @@ h1 {
 
 #text {
     text-align: center;
+}
+
+.text {
     font-size: 40px;
 }
 
@@ -59,19 +62,27 @@ h1 {
     text-align: left;
 }
 
-textarea {
-    padding: 10px;
-    font-size: 25px;
-    border-radius: 15px;
+#finish-page {
+    display: none;
+    height: 50px;
+}
+
+#text2 {
+    vertical-align: middle;
+    display: inline-block;
+}
+
+input {
+    font-size: 30px;
+    margin: 0 10px;
+    padding-left: 10px;
     display: inline-block;
     vertical-align: middle;
-    display: none;
 }
 
 #submit {
-    display: inline-block;
     vertical-align: middle;
-    display: none;
+    padding: 5px 20px;
 }
 
 #score-page ol li {

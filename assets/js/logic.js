@@ -9,6 +9,9 @@ let submitEl = document.querySelector("#submit");
 let scoreListEl = document.querySelector("#score-list");
 let backEl = document.querySelector("#back");
 let clearScoreEl = document.querySelector("#clear-score");
+let finishEl = document.querySelector("#finish-page");
+let text2 = document.querySelector("#text2");
+let scorePageEl = document.querySelector("#score-page");
 
 // Timer
 let timeEl = document.querySelector(".timer");
@@ -63,7 +66,7 @@ const pages = [
 
     end = {
         question: "All done!",
-        text: "Your final score is 22.",
+        text: "Your final score is",
         text2: "Enter initials:"
     },
 
@@ -231,10 +234,39 @@ function counter() {
 
 function endPage () {
     pause();
+    finishEl.style.display = "flex"
+
     questionEl.innerHTML = pages[1].question;
+
+    // currentScore = document.getElementById(second).target.innerText
+
+    textEl.innerHTML = pages[1].text+ " " + second + " ."
+    
+    textEl.style.textAlign = "left"
+
+    
+    submitEl.addEventListener ("click", function(){
+        var name = document.querySelector('input').value
+        if (!name) {
+            window.alert("Please insert your initials to continue")
+        }
+        else {
+            checkHighScore(account.score)
+        }
+    })
 }
 
-startPage(0);
+function scorePage() {
+    scorePageEl.style.display = "block"
+}
+
+
+
+
+
+ 
+scorePage();
+// startPage(0);
 // let styling = {
     //     style: contentEl.style.textAlign = "center";
     //     style: answer1El.style.margin = "auto";
