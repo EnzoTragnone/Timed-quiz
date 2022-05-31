@@ -94,9 +94,12 @@ input {
 
 }
 
-#score-page div {
-    margin-left: 40px;
+#score-page {
     display: none;
+}
+
+#clear-score {
+    margin-left: 5px;
 }
 
 #feedback {

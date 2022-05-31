@@ -13,6 +13,7 @@ let finishEl = document.querySelector("#finish-page");
 let text2 = document.querySelector("#text2");
 let scorePageEl = document.querySelector("#score-page");
 
+
 // Timer
 let timeEl = document.querySelector(".timer");
 let second = 100;
@@ -45,7 +46,7 @@ function timer() {
 }
 
 function penalty() {
-    second= second - 10;
+    second = second - 10;
     document.getElementById('second').innerText = returnData(second);
 }
 
@@ -170,22 +171,22 @@ function nextQuestion() {
 function resetState() {
     while (answerEl.firstChild) {
         answerEl.removeChild
-        (answerEl.firstChild)
+            (answerEl.firstChild)
     }
 }
 
 function styleReset() {
-try {
-    contentEl.style.textAlign = ""
-    startBtn.style.textAlign = ""
-    startBtn.style.width = ""
-    startBtn.style.margin = ""
-    textEl.style.display = "none"
-} catch(err) {
-    contentEl.style.textAlign = ""
-    button = display = "none"
-    feedbackEl.style.display = "none"
-}
+    try {
+        contentEl.style.textAlign = ""
+        startBtn.style.textAlign = ""
+        startBtn.style.width = ""
+        startBtn.style.margin = ""
+        textEl.style.display = "none"
+    } catch (err) {
+        contentEl.style.textAlign = ""
+        button = display = "none"
+        feedbackEl.style.display = "none"
+    }
 
 }
 
@@ -196,19 +197,19 @@ function counter() {
 
     function QuestionsBuild(value) {
         questionEl.innerHTML = questions[value].question;
-        
+
         questions[value].answers.forEach(answer => {
             const button = document.createElement("button")
             button.innerText = answer.text
-            button.className ="main-btn btn"
+            button.className = "main-btn btn"
             if (answer.correct) {
-                    button.dataset.correct = answer.correct
-                    button.addEventListener("click", checkTrue)
+                button.dataset.correct = answer.correct
+                button.addEventListener("click", checkTrue)
             } else {
                 button.addEventListener("click", checkFalse)
             }
             answerEl.appendChild(button)
-        })   
+        })
     }
 
     function checkTrue() {
@@ -223,7 +224,7 @@ function counter() {
             endPage();
         }
     }
-    
+
     function checkFalse() {
         feedbackEl.style.display = "block"
         feedbackEl.innerHTML = "False"
@@ -232,7 +233,7 @@ function counter() {
 
 }
 
-function endPage () {
+function endPage() {
     pause();
     finishEl.style.display = "flex"
 
@@ -240,79 +241,54 @@ function endPage () {
 
     // currentScore = document.getElementById(second).target.innerText
 
-    textEl.innerHTML = pages[1].text+ " " + second + " ."
-    
+    textEl.innerHTML = pages[1].text + " " + second + " ."
+
     textEl.style.textAlign = "left"
 
-    
-    submitEl.addEventListener ("click", function(){
+
+    submitEl.addEventListener("click", function () {
         var name = document.querySelector('input').value
         if (!name) {
             window.alert("Please insert your initials to continue")
         }
         else {
-            checkHighScore(account.score)
+            userData = { name, second }
+            userData.id = second
+            data.push(userData);
+            saveData();
+            scorePage();
         }
     })
 }
 
-function scorePage() {
-    scorePageEl.style.display = "block"
+var data = [];
+
+function saveData() {
+    localStorage.setItem("data", JSON.stringify(data) + second);
 }
 
 
+function scorePage() {
+    questionEl.innerHTML = pages[2].question;
+
+    console.log(data);
+
+
+    // scores = JSON.parse(score);
+    // console.log(scores);
 
 
 
- 
-scorePage();
-// startPage(0);
-// let styling = {
-    //     style: contentEl.style.textAlign = "center";
-    //     style: answer1El.style.margin = "auto";
-    //     style: answer1El.style.textAlign = "center";
-    //     style: answer1El.style.width = "auto";
-    //     style: answer2El.style.display = "none";
-    //     style: answer3El.style.display = "none";
-    //     style: answer4El.style.display = "none";
-    // }
-    
-// var startPage = function () {
-//     //style changes
-//     answer2El.style.display = "none"
-//     answer3El.style.display = "none"
-//     answer4El.style.display = "none"
-//     contentEl.style.textAlign = "center"
-//     answer1El.style.display = "block"
-//     answer1El.style.margin = "auto"
-//     answer1El.style.textAlign = "center"
-//     answer1El.style.width = "auto"
+    finishEl.style.display = "none"
+    scorePageEl.style.display = "block"
 
-//     // content changes
-//     questionEl.innerHTML = intro.question;
-//     textEl.innerHTML = intro.text;
-//     answer1El.innerHTML = "Start Quiz";
+    localStorage.getItem("storedItem");
+    console.log("storedItem");
 
-//     // actions
-//     answer1El.addEventListener("click", questionPage1)
-// }
+    backEl.addEventListener("click", function () {
+        return
+    })
 
-// var questionPage1 = function () {
-//     // style changes
-//     contentEl.style.textAlign = ""
-//     answer1El.style.display = ""
-//     answer1El.style.margin = ""
-//     answer1El.style.textAlign = ""
-//     answer1El.style.width = ""
-//     answer2El.style.display = ""
-//     answer3El.style.display = ""
-//     answer4El.style.display = ""
+}
 
-//     // actions
-//     start();
-//     answer1El.addEventListener("click", checkT)
-//     answer1El.addEventListener("click", questionPage2)
-//     answer2El.addEventListener("click", checkF)
-//     answer3El.addEventListener("click", checkF)
-//     answer4El.addEventListener("click", checkF)
-// }
+startPage();
