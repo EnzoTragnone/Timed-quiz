@@ -294,6 +294,7 @@ function scorePage() {
     questionEl.innerHTML = pages[2].question;
     pause();
 
+    scoreBtnEl.style.display = "none"
     // calls data from local memory
     array = localStorage.getItem('data');
     array = JSON.parse(array);
