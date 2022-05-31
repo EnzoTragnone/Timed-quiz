@@ -37,10 +37,7 @@ function timer() {
     if ((second -= 1) == 0 || second < 0) {
         second = 100;
         window.alert("You ran out of time! Try again")
-        pause();
-        resetState();
-        styleReset();
-        startPage();
+        location.reload(true)
     }
     document.getElementById('second').innerText = returnData(second);
 }
@@ -54,6 +51,8 @@ function returnData(input) {
     return input > 10 ? input : `0${input}`
 }
 // End of timer
+
+
 
 // declaring all the different pages and questions as objects inside arrays
 const pages = [
@@ -71,15 +70,9 @@ const pages = [
 
     scorePageInfo = {
         question: "High scores",
-        place1: "",
-        place2: "",
-        place3: "",
-        place4: "",
-        place5: "",
     }
 ]
 const questions = [
-
     {
         question: "Commonly used data type DO Not Include;",
         answers: [
@@ -170,7 +163,6 @@ function resetState() {
             (answerEl.firstChild)
     }
 }
-
 function styleReset() {
     try {
         contentEl.style.textAlign = ""
@@ -229,6 +221,7 @@ function counter() {
 
 }
 
+//loads data from localmemory into array
 function loadData() {
     if ("data" in localStorage) {
         array = localStorage.getItem('data');
@@ -238,6 +231,8 @@ function loadData() {
         array = []
     }
 }
+
+//end page with timer pause and savedata call
 function endPage() {
     pause();
     finishEl.style.display = "flex"
@@ -267,25 +262,27 @@ function endPage() {
     })
 }
 
+//saves array into local memory
 function saveData() {
     localStorage.setItem("data", JSON.stringify(array));
     console.log(array);
     scorePage();
 }
 
+// clears all of the local memory
 function clearData() {
     localStorage.clear();
 }
 
-
-function scorePage() {
+// highscore page
+function scorePage(c) {
     questionEl.innerHTML = pages[2].question;
 
-
+    // calls data from local memory
     array = localStorage.getItem('data');
     array = JSON.parse(array);
-    array.sort();
 
+    // sorts the array from highest to lowest score
     function compare(a, b) {
         const scoreA = a.score;
         const scoreB = b.score;
@@ -302,28 +299,33 @@ function scorePage() {
 
     array.sort(compare);
 
+    // creates the score elements
     for (let i = 0; i < array.length; i++) {
         let li = document.createElement("li");
         li.innerText = (i + 1) + "." + array[i].name + "-    " + array[i].score;
         scoreListEl.appendChild(li);
     }
 
+    // styling
     finishEl.style.display = "none"
     text2.style.display = "none"
     scorePageEl.style.display = "block"
 
+    // end of the quiz, decides wether to restart or to clear data and restart
     clearScoreEl.addEventListener("click", function () {
         clearData();
-        resetState();
-        reset();
-        return wrap;
+        restart();
     });
 
     backEl.addEventListener("click", function () {
-        resetState();
-        reset();
-        return wrap();
+        restart();
     });
 }
 
+// due to styling and bubble effect, it was easier to just refresh the page, since if user choses scores wont be lost
+function restart() {
+    location.reload(true)
+}
+
+// trigger for the operation of the website
 startPage();
