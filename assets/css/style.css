@@ -78,6 +78,7 @@ input {
     padding-left: 10px;
     display: inline-block;
     vertical-align: middle;
+    border: 2px solid black;
 }
 
 #submit {
@@ -90,8 +91,11 @@ input {
     padding: 10px;
     font-size: 30px;
     margin-bottom: 5px;
-    width: 40%;
+}
 
+#score-page ol {
+    list-style: none;
+    padding: 0;
 }
 
 #score-page {

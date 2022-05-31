@@ -6,7 +6,7 @@ let questionEl = document.querySelector("#question");
 let answerEl = document.querySelector("#answers");
 let feedbackEl = document.querySelector("#feedback");
 let submitEl = document.querySelector("#submit");
-let scoreListEl = document.querySelector("#score-list");
+let scoreListEl = document.querySelector(".score-list");
 let backEl = document.querySelector("#back");
 let clearScoreEl = document.querySelector("#clear-score");
 let finishEl = document.querySelector("#finish-page");
@@ -53,11 +53,9 @@ function penalty() {
 function returnData(input) {
     return input > 10 ? input : `0${input}`
 }
-
 // End of timer
 
 // declaring all the different pages and questions as objects inside arrays
-
 const pages = [
     intro = {
         question: "Coding Quiz Challenge",
@@ -80,7 +78,6 @@ const pages = [
         place5: "",
     }
 ]
-
 const questions = [
 
     {
@@ -136,7 +133,6 @@ const questions = [
 
 // start page with trigger for counter
 function startPage() {
-
     // declaration of the innerHTMl and creation of button
     questionEl.innerHTML = pages[0].question;
 
@@ -242,7 +238,6 @@ function loadData() {
         array = []
     }
 }
-
 function endPage() {
     pause();
     finishEl.style.display = "flex"
@@ -268,35 +263,67 @@ function endPage() {
             userData.score = second;
             array.push(userData);
             saveData();
-            scorePage();
         }
     })
 }
 
 function saveData() {
     localStorage.setItem("data", JSON.stringify(array));
-    console.log(array)
+    console.log(array);
+    scorePage();
+}
+
+function clearData() {
+    localStorage.clear();
 }
 
 
 function scorePage() {
     questionEl.innerHTML = pages[2].question;
 
-    // scores = JSON.parse(score);
-    // console.log(scores);
 
+    array = localStorage.getItem('data');
+    array = JSON.parse(array);
+    array.sort();
 
+    function compare(a, b) {
+        const scoreA = a.score;
+        const scoreB = b.score;
+
+        let comparison = 0;
+        if (scoreA < scoreB) {
+            comparison = 1;
+        }
+        else if (scoreA > scoreB) {
+            comparison = -1;
+        }
+        return comparison;
+    }
+
+    array.sort(compare);
+
+    for (let i = 0; i < array.length; i++) {
+        let li = document.createElement("li");
+        li.innerText = (i + 1) + "." + array[i].name + "-    " + array[i].score;
+        scoreListEl.appendChild(li);
+    }
 
     finishEl.style.display = "none"
+    text2.style.display = "none"
     scorePageEl.style.display = "block"
 
-    // localStorage.getItem("storedItem");
-    // console.log("storedItem");
+    clearScoreEl.addEventListener("click", function () {
+        clearData();
+        resetState();
+        reset();
+        return wrap;
+    });
 
-    // backEl.addEventListener("click", function () {
-    //     return
-    // })
-
+    backEl.addEventListener("click", function () {
+        resetState();
+        reset();
+        return wrap();
+    });
 }
 
-endPage();
+startPage();
