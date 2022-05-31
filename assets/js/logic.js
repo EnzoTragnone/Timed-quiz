@@ -35,9 +35,11 @@ function reset() {
 
 function timer() {
     if ((second -= 1) == 0 || second < 0) {
-        second = 100;
+        second = 0;
         window.alert("You ran out of time! Try again")
-        location.reload(true)
+        resetState();
+        styleReset();
+        endPage();
     }
     document.getElementById('second').innerText = returnData(second);
 }
