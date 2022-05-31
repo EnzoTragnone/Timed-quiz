@@ -124,6 +124,19 @@ const questions = [
     },
 ]
 
+// view score btn
+scoreBtnEl.addEventListener("click", function () {
+    loadData();
+    resetState();
+    styleReset();
+    finishEl.style.display = "none"
+    text2.style.display = "none"
+    text.style.display = "none"
+    scorePageEl.style.display = "block"
+    scorePage();
+})
+
+
 // start page with trigger for counter
 function startPage() {
     // declaration of the innerHTMl and creation of button
@@ -275,8 +288,9 @@ function clearData() {
 }
 
 // highscore page
-function scorePage(c) {
+function scorePage() {
     questionEl.innerHTML = pages[2].question;
+    pause();
 
     // calls data from local memory
     array = localStorage.getItem('data');
@@ -297,13 +311,18 @@ function scorePage(c) {
         return comparison;
     }
 
-    array.sort(compare);
+    try {
+        array.sort(compare);
 
-    // creates the score elements
-    for (let i = 0; i < array.length; i++) {
-        let li = document.createElement("li");
-        li.innerText = (i + 1) + "." + array[i].name + "-    " + array[i].score;
-        scoreListEl.appendChild(li);
+        // creates the score elements
+        for (let i = 0; i < array.length; i++) {
+            let li = document.createElement("li");
+            li.innerText = (i + 1) + "." + array[i].name + "-    " + array[i].score;
+            scoreListEl.appendChild(li);
+        }
+
+    } catch {
+        window.alert("There are no scores!")
     }
 
     // styling

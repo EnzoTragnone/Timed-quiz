@@ -2,6 +2,13 @@
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
+/* non changing elements */
+header {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+}
+
 #score-btn {
     border: none;
     background-color: white;
@@ -18,12 +25,7 @@
     margin-right: 5%;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    margin: 0;
-}
-
+/* questions */
 .content {
     margin-left: 30%;
     margin-right: 30%;
@@ -62,6 +64,7 @@ h1 {
     text-align: left;
 }
 
+/* finish Page */
 #finish-page {
     display: none;
     height: 50px;
@@ -86,11 +89,9 @@ input {
     padding: 5px 20px;
 }
 
-#score-page ol li {
-    background-color: rgba(27, 0, 135, 0.315);
-    padding: 10px;
-    font-size: 30px;
-    margin-bottom: 5px;
+/* score page */
+#score-page {
+    display: none;
 }
 
 #score-page ol {
@@ -98,14 +99,18 @@ input {
     padding: 0;
 }
 
-#score-page {
-    display: none;
+#score-page ol li {
+    background-color: rgba(27, 0, 135, 0.315);
+    padding: 10px;
+    font-size: 30px;
+    margin-bottom: 5px;
 }
 
 #clear-score {
     margin-left: 5px;
 }
 
+/* feedback for true or false */
 #feedback {
     font-size: 40px;
     color: rgb(101, 101, 101);
