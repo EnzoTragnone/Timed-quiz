@@ -233,13 +233,23 @@ function counter() {
 
 }
 
+function loadData() {
+    if ("data" in localStorage) {
+        array = localStorage.getItem('data');
+        array = JSON.parse(array);
+    }
+    else {
+        array = []
+    }
+}
+
 function endPage() {
     pause();
     finishEl.style.display = "flex"
+    textEl.style.display = "block"
 
     questionEl.innerHTML = pages[1].question;
 
-    // currentScore = document.getElementById(second).target.innerText
 
     textEl.innerHTML = pages[1].text + " " + second + " ."
 
@@ -252,27 +262,25 @@ function endPage() {
             window.alert("Please insert your initials to continue")
         }
         else {
-            userData = { name, second }
-            userData.id = second
-            data.push(userData);
+            loadData();
+            userData = {}
+            userData.name = name;
+            userData.score = second;
+            array.push(userData);
             saveData();
             scorePage();
         }
     })
 }
 
-var data = [];
-
 function saveData() {
-    localStorage.setItem("data", JSON.stringify(data) + second);
+    localStorage.setItem("data", JSON.stringify(array));
+    console.log(array)
 }
 
 
 function scorePage() {
     questionEl.innerHTML = pages[2].question;
-
-    console.log(data);
-
 
     // scores = JSON.parse(score);
     // console.log(scores);
@@ -282,13 +290,13 @@ function scorePage() {
     finishEl.style.display = "none"
     scorePageEl.style.display = "block"
 
-    localStorage.getItem("storedItem");
-    console.log("storedItem");
+    // localStorage.getItem("storedItem");
+    // console.log("storedItem");
 
-    backEl.addEventListener("click", function () {
-        return
-    })
+    // backEl.addEventListener("click", function () {
+    //     return
+    // })
 
 }
 
-startPage();
+endPage();
