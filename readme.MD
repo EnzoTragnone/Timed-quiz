@@ -9,4 +9,4 @@ this website was made with a lot of effort!
 
 made by Enzo Tragnone
 
-<img src="/JS-Quiz.jpg>
+![Alt text](/SCREENSHOT.jpg "Title")
