@@ -9,4 +9,4 @@ this website was made with a lot of effort!
 
 made by Enzo Tragnone
 
-the screenshots can be found on teh subfolder screenshots
+<img src="screenshot\JS-Quiz.jpg>
